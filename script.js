@@ -1,5 +1,6 @@
 const GameBoard = (() => {
-  let board = ["X", "X", "O", "X", "O", "O", "X", "O", "X"];
+  //let board = ["X", "X", "O", "X", "O", "O", "X", "O", "X"];
+  let board = ["", "", "", "", "", "", "", "", ""];
   return { board };
 })();
 
@@ -7,28 +8,42 @@ const Game = (() => {
   let currentPlayer;
 
   const start = (startingPlayer) => {
-    console.log("a");
-    currentPlayer = startingPlayer;
+    currentPlayer = startingPlayer.id;
     const board = document.querySelector("#game-board");
-    for (let boardCell of GameBoard.board) {
-      console.log("a");
+    for (let i = 0; i < GameBoard.board.length; i++) {
       let cell = document.createElement("div");
-      cell.textContent = boardCell;
+      cell.textContent = GameBoard.board[i];
       cell.className = "board-cell";
+      cell.dataset.position = i;
+      cell.addEventListener("click", () => {
+        if (GameBoard.board[cell.dataset.position] == "") {
+          Game.fillCell(cell.dataset.position);
+          Game.nextTurn(currentPlayer);
+        }
+      });
       board.appendChild(cell);
     }
   };
 
-  const nextTurn = (currentPlayer) => {
-    currentPlayer = currentPlayer == "x" ? "o" : "x";
+  const fillCell = (index) => {
+    console.log(index);
+    GameBoard.board[index] = currentPlayer;
+    document.querySelector(`[data-position="${index}"]`).textContent =
+      currentPlayer;
   };
 
-  return { start, nextTurn };
+  const nextTurn = (playingPlayer) => {
+    currentPlayer = playingPlayer == "X" ? "O" : "X";
+  };
+
+  return { start, nextTurn, fillCell, nextTurn };
 })();
 
-const Player = (id) => {
-  let playerId = id;
-  return { playerId };
+const Player = (playerId) => {
+  let id = playerId;
+  return { id };
 };
 
-Game.start("x");
+const playerX = Player("X");
+const playerO = Player("O");
+Game.start(playerX);
