@@ -1,5 +1,4 @@
 const GameBoard = (() => {
-  //let board = ["X", "X", "O", "X", "O", "O", "X", "O", "X"];
   let board = ["", "", "", "", "", "", "", "", ""];
   return { board };
 })();
@@ -7,6 +6,7 @@ const GameBoard = (() => {
 const Game = (() => {
   let currentPlayer;
   let gameOver = false;
+  let timesPlayed = 0;
 
   const start = (startingPlayer, otherPlayer) => {
     currentPlayer = startingPlayer.id;
@@ -18,7 +18,10 @@ const Game = (() => {
       cell.dataset.position = i;
       cell.addEventListener("click", () => {
         if (GameBoard.board[cell.dataset.position] == "" && !gameOver) {
+          timesPlayed++;
           Game.fillCell(cell.dataset.position);
+          Game.addMark(currentPlayer, startingPlayer, otherPlayer);
+          Game.checkGameOver(timesPlayed);
           Game.nextTurn(startingPlayer, otherPlayer);
         }
       });
@@ -27,13 +30,17 @@ const Game = (() => {
   };
 
   const fillCell = (index) => {
-    console.log(index);
     GameBoard.board[index] = currentPlayer;
     document.querySelector(`[data-position="${index}"]`).textContent =
       currentPlayer;
   };
 
-  const checkGameOver = () => {
+  const addMark = (player, startingPlayer, otherPlayer) => {
+    if (player == "X") startingPlayer.marks++;
+    else otherPlayer.marks++;
+  };
+
+  const checkGameOver = (timesPlayed) => {
     let board = GameBoard.board;
     if (
       (board[0] == "X" && board[1] == "X" && board[2] == "X") ||
@@ -57,16 +64,19 @@ const Game = (() => {
       (board[6] == "O" && board[4] == "O" && board[2] == "O")
     ) {
       Game.endGame("O");
-    } else if (startingPlayer.marks + otherPlayer.marks > 7) {
+    } else if (timesPlayed > 7) {
       Game.endGame("tie");
     }
   };
 
   const nextTurn = (startingPlayer, otherPlayer) => {
-    currentPlayer = currentPlayer == "X" ? otherPlayer.id : startingPlayer.id;
+    if (currentPlayer == "X") currentPlayer = "O";
+    else currentPlayer = "X";
   };
 
+  //Add proper winning screen
   const endGame = (result) => {
+    gameOver = true;
     switch (result) {
       case "X":
         console.log("X WINS");
@@ -80,17 +90,29 @@ const Game = (() => {
     }
   };
 
-  return { start, nextTurn, fillCell, checkGameOver, nextTurn, endGame };
+  return {
+    start,
+    nextTurn,
+    fillCell,
+    addMark,
+    checkGameOver,
+    nextTurn,
+    endGame,
+  };
 })();
 
 const Player = (playerId) => {
   let id = playerId;
-  let marks = [];
-  return { id, marks };
+  return { id };
 };
 
 const playerX = Player("X");
 const playerO = Player("O");
-//Change into Game.start(playerX, playerO) but argument order changes depending
-// on choice of first player
-Game.start(playerX, playerO);
+let first;
+
+do {
+  first = prompt("Input starting player: X / O").toUpperCase();
+} while (first != "X" && first != "O");
+
+if (first == "X") Game.start(playerX, playerO);
+else Game.start(playerO, playerX);
