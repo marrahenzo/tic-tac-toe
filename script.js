@@ -68,7 +68,7 @@ const Game = (() => {
       (board[6] == "O" && board[4] == "O" && board[2] == "O")
     ) {
       Game.endGame("O");
-    } else if (timesPlayed > 7) {
+    } else if (timesPlayed > 8) {
       Game.endGame("tie");
     }
   };
@@ -79,14 +79,14 @@ const Game = (() => {
   };
 
   //TODO: Add proper winning screen
-  const endGame = (result) => {
+  const endGame = (result, startingPlayer, otherPlayer) => {
     gameOver = true;
     switch (result) {
       case "X":
-        console.log("X WINS");
-        break;
       case "O":
-        console.log("O WINS");
+        if (result == startingPlayer.name)
+          console.log(startingPlayer.name + "wins!");
+        else console.log(otherPlayer.name + "wins!");
         break;
       case "tie":
         console.log("TIE");
@@ -105,14 +105,11 @@ const Game = (() => {
   };
 })();
 
-const Player = (playerId) => {
+const Player = (playerId, playerName) => {
   let id = playerId;
-  return { id };
+  let name = playerName;
+  return { id, name };
 };
-
-const playerX = Player("X");
-const playerO = Player("O");
-let first;
 
 const board = document.querySelector("#game-board");
 board.className = "disabled";
@@ -121,6 +118,10 @@ const choiceButtons = document.querySelectorAll(".btn-choice");
 for (let i = 0; i < choiceButtons.length; i++) {
   choiceButtons[i].addEventListener("click", () => {
     board.className = "";
+    let playerXName = document.querySelector("#player-x").nodeValue;
+    let playerOName = document.querySelector("#player-o");
+    const playerX = Player("X", playerXName);
+    const playerO = Player("O", playerOName);
     if (choiceButtons[i].textContent == "X") Game.start(playerX, playerO);
     else Game.start(playerO, playerX);
     document.querySelector("#player-choice").remove();
