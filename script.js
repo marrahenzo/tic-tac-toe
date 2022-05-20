@@ -22,7 +22,7 @@ const Game = (() => {
           timesPlayed++;
           Game.fillCell(cell.dataset.position);
           Game.addMark(currentPlayer, startingPlayer, otherPlayer);
-          Game.checkGameOver(timesPlayed);
+          Game.checkGameOver(timesPlayed, startingPlayer, otherPlayer);
           Game.nextTurn();
         }
       });
@@ -44,7 +44,7 @@ const Game = (() => {
     else otherPlayer.marks++;
   };
 
-  const checkGameOver = (timesPlayed) => {
+  const checkGameOver = (timesPlayed, startingPlayer, otherPlayer) => {
     let board = GameBoard.board;
     if (
       (board[0] == "X" && board[1] == "X" && board[2] == "X") ||
@@ -56,7 +56,7 @@ const Game = (() => {
       (board[0] == "X" && board[4] == "X" && board[8] == "X") ||
       (board[6] == "X" && board[4] == "X" && board[2] == "X")
     ) {
-      Game.endGame("X");
+      Game.endGame("X", startingPlayer, otherPlayer);
     } else if (
       (board[0] == "O" && board[1] == "O" && board[2] == "O") ||
       (board[3] == "O" && board[4] == "O" && board[5] == "O") ||
@@ -67,7 +67,7 @@ const Game = (() => {
       (board[0] == "O" && board[4] == "O" && board[8] == "O") ||
       (board[6] == "O" && board[4] == "O" && board[2] == "O")
     ) {
-      Game.endGame("O");
+      Game.endGame("O", startingPlayer, otherPlayer);
     } else if (timesPlayed > 8) {
       Game.endGame("tie");
     }
@@ -84,7 +84,7 @@ const Game = (() => {
     switch (result) {
       case "X":
       case "O":
-        if (result == startingPlayer.name)
+        if (result == startingPlayer.id)
           console.log(startingPlayer.name + "wins!");
         else console.log(otherPlayer.name + "wins!");
         break;
@@ -118,8 +118,8 @@ const choiceButtons = document.querySelectorAll(".btn-choice");
 for (let i = 0; i < choiceButtons.length; i++) {
   choiceButtons[i].addEventListener("click", () => {
     board.className = "";
-    let playerXName = document.querySelector("#player-x").nodeValue;
-    let playerOName = document.querySelector("#player-o");
+    let playerXName = document.querySelector("#player-x").value;
+    let playerOName = document.querySelector("#player-o").value;
     const playerX = Player("X", playerXName);
     const playerO = Player("O", playerOName);
     if (choiceButtons[i].textContent == "X") Game.start(playerX, playerO);
