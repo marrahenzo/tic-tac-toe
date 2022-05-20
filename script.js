@@ -32,7 +32,6 @@ const Game = (() => {
   };
 
   const fillCell = (index) => {
-    console.log(currentPlayer);
     GameBoard.board[index] = currentPlayer;
     document.querySelector(`[data-position="${index}"]`).textContent =
       currentPlayer;
