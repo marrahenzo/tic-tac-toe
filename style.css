@@ -7,7 +7,7 @@ body {
 #player-choice {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1.1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   align-content: center;
   justify-content: center;
   position: fixed;
@@ -15,6 +15,15 @@ body {
   width: 100vw;
   background-color: black;
   gap: 100px;
+}
+
+#player-choice-text {
+  grid-column: 1/3;
+  color: white;
+  font-family: "Radio Canada", sans-serif;
+  font-size: 40px;
+  text-align: center;
+  align-self: flex-end;
 }
 
 .btn-choice {
@@ -39,7 +48,8 @@ body {
   border-radius: 50px;
 }
 
-.btn-choice:hover {
+.btn-choice:hover,
+.btn-choice.chosen {
   background-color: white;
   color: black;
 }
