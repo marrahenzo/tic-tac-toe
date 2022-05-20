@@ -10,7 +10,9 @@ const Game = (() => {
 
   const start = (startingPlayer, otherPlayer) => {
     currentPlayer = startingPlayer.id;
+    console.log(currentPlayer);
     const board = document.querySelector("#game-board");
+
     for (let i = 0; i < GameBoard.board.length; i++) {
       let cell = document.createElement("div");
       cell.textContent = GameBoard.board[i];
@@ -22,7 +24,7 @@ const Game = (() => {
           Game.fillCell(cell.dataset.position);
           Game.addMark(currentPlayer, startingPlayer, otherPlayer);
           Game.checkGameOver(timesPlayed);
-          Game.nextTurn(startingPlayer, otherPlayer);
+          Game.nextTurn();
         }
       });
       board.appendChild(cell);
@@ -30,6 +32,7 @@ const Game = (() => {
   };
 
   const fillCell = (index) => {
+    console.log(currentPlayer);
     GameBoard.board[index] = currentPlayer;
     document.querySelector(`[data-position="${index}"]`).textContent =
       currentPlayer;
@@ -69,12 +72,12 @@ const Game = (() => {
     }
   };
 
-  const nextTurn = (startingPlayer, otherPlayer) => {
+  const nextTurn = () => {
     if (currentPlayer == "X") currentPlayer = "O";
     else currentPlayer = "X";
   };
 
-  //Add proper winning screen
+  //TODO: Add proper winning screen
   const endGame = (result) => {
     gameOver = true;
     switch (result) {
@@ -110,9 +113,15 @@ const playerX = Player("X");
 const playerO = Player("O");
 let first;
 
-do {
-  first = prompt("Input starting player: X / O").toUpperCase();
-} while (first != "X" && first != "O");
+const board = document.querySelector("#game-board");
+board.className = "disabled";
 
-if (first == "X") Game.start(playerX, playerO);
-else Game.start(playerO, playerX);
+const choiceButtons = document.querySelectorAll(".btn-choice");
+for (let i = 0; i < choiceButtons.length; i++) {
+  choiceButtons[i].addEventListener("click", () => {
+    board.className = "";
+    if (choiceButtons[i].textContent == "X") Game.start(playerX, playerO);
+    else Game.start(playerO, playerX);
+    document.querySelector("#player-choice").remove();
+  });
+}
