@@ -34,6 +34,9 @@ const Game = (() => {
     GameBoard.board[index] = currentPlayer;
     document.querySelector(`[data-position="${index}"]`).textContent =
       currentPlayer;
+    document
+      .querySelector(`[data-position="${index}"]`)
+      .classList.add("marked");
   };
 
   const addMark = (player, startingPlayer, otherPlayer) => {
