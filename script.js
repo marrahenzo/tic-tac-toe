@@ -10,7 +10,6 @@ const Game = (() => {
 
   const start = (startingPlayer, otherPlayer) => {
     currentPlayer = startingPlayer.id;
-    console.log(currentPlayer);
     const board = document.querySelector("#game-board");
 
     for (let i = 0; i < GameBoard.board.length; i++) {
