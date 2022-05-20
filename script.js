@@ -85,8 +85,8 @@ const Game = (() => {
       case "X":
       case "O":
         if (result == startingPlayer.id)
-          console.log(startingPlayer.name + "wins!");
-        else console.log(otherPlayer.name + "wins!");
+          console.log(startingPlayer.name + " wins!");
+        else console.log(otherPlayer.name + " wins!");
         break;
       case "tie":
         console.log("TIE");
@@ -117,13 +117,22 @@ board.className = "disabled";
 const choiceButtons = document.querySelectorAll(".btn-choice");
 for (let i = 0; i < choiceButtons.length; i++) {
   choiceButtons[i].addEventListener("click", () => {
-    board.className = "";
-    let playerXName = document.querySelector("#player-x").value;
-    let playerOName = document.querySelector("#player-o").value;
-    const playerX = Player("X", playerXName);
-    const playerO = Player("O", playerOName);
-    if (choiceButtons[i].textContent == "X") Game.start(playerX, playerO);
-    else Game.start(playerO, playerX);
-    document.querySelector("#player-choice").remove();
+    for (let button of choiceButtons) button.classList.remove("chosen");
+    choiceButtons[i].classList.add("chosen");
   });
 }
+
+const playButton = document.querySelector("#btn-play");
+playButton.addEventListener("click", () => {
+  board.className = "";
+  let playerXName = document.querySelector("#player-x").value;
+  if (playerXName == "") playerXName = "Player X";
+  let playerOName = document.querySelector("#player-o").value;
+  if (playerOName == "") playerOName = "Player O";
+  const playerX = Player("X", playerXName);
+  const playerO = Player("O", playerOName);
+  let chosenButton = document.querySelector(".btn-choice.chosen");
+  if (chosenButton.textContent == "X") Game.start(playerX, playerO);
+  else Game.start(playerO, playerX);
+  document.querySelector("#player-choice").remove();
+});
