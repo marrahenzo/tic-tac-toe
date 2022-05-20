@@ -1,5 +1,7 @@
 body {
   margin: 0;
+  height: 100vh;
+  background-color: black;
 }
 
 #player-choice {
@@ -33,6 +35,7 @@ body {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -o-user-select: none;
+  border-radius: 50px;
 }
 
 .btn-choice:hover {
@@ -64,11 +67,26 @@ body {
   grid-template-columns: repeat(3, 200px);
   justify-items: center;
   justify-content: center;
+  height: 100vh;
+  align-content: center;
 }
 
 .board-cell {
-  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 200px;
-  border: 1px solid blue;
+  border: 1px solid white;
+  border-radius: 5px;
+  color: white;
+  font-size: 100px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.board-cell:hover {
+  background-color: white;
+  color: black;
 }
