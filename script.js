@@ -81,17 +81,35 @@ const Game = (() => {
   //TODO: Add proper winning screen
   const endGame = (result, startingPlayer, otherPlayer) => {
     gameOver = true;
+    document.querySelector("#game-board").classList.add("finished");
+    let winText = document.createElement("p");
+    winText.id = "win-text";
+    let restartButton = document.createElement("a");
+    restartButton.id = "restart-button";
+    restartButton.textContent = "Restart";
+    restartButton.href = "./index.html";
+    let credits = document.createElement("div");
+    credits.id = "credits";
+    let creditsText = document.createElement("a");
+    creditsText.textContent = "2022 © Hernán Marrapodi";
+    creditsText.href = "https://github.com/marrahenzo";
+    let creditsLogo = document.createElement("img");
+    creditsLogo.src = "./media/github-logo.png";
+    creditsLogo.width = 25;
+    creditsText.append(creditsLogo);
+    credits.append(creditsText);
     switch (result) {
       case "X":
       case "O":
         if (result == startingPlayer.id)
-          console.log(startingPlayer.name + " wins!");
-        else console.log(otherPlayer.name + " wins!");
+          winText.textContent = startingPlayer.name + " wins!";
+        else winText.textContent = otherPlayer.name + " wins!";
         break;
       case "tie":
         console.log("TIE");
         break;
     }
+    document.querySelector("body").append(winText, restartButton, credits);
   };
 
   return {
