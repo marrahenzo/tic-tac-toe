@@ -78,7 +78,6 @@ const Game = (() => {
     else currentPlayer = "X";
   };
 
-  //TODO: Add proper winning screen
   const endGame = (result, startingPlayer, otherPlayer) => {
     gameOver = true;
     document.querySelector("#game-board").classList.add("finished");
