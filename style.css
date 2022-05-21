@@ -2,6 +2,8 @@ body {
   margin: 0;
   height: 100vh;
   background-color: black;
+  display: grid;
+  grid-template-rows: 400px 100px 100px 1fr;
 }
 
 #player-choice {
@@ -92,6 +94,9 @@ body {
   padding: 10px 0;
   padding-bottom: 30px;
   transition: all 0.2s ease;
+  font-family: "Montserrat", sans-serif;
+  background-color: black;
+  color: white;
 }
 
 #btn-play:hover {
@@ -140,6 +145,12 @@ body {
   border-radius: 0px 0px 50px 0px;
 }
 
+#game-board.finished {
+  transition: all 1s ease;
+  transform: scale(50%) translateY(-50vh);
+  position: relative;
+}
+
 .board-cell {
   display: flex;
   justify-content: center;
@@ -157,4 +168,62 @@ body {
 .board-cell:hover {
   background-color: white;
   color: black;
+}
+
+#win-text {
+  color: white;
+  font-size: 40px;
+  font-family: "Radio Canada", sans-serif;
+  text-align: center;
+  transition: all 1s ease;
+}
+
+#restart-button {
+  display: flex;
+  color: white;
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 50px;
+  justify-self: center;
+  align-self: center;
+  padding: 10px 50px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: "Radio Canada", sans-serif;
+}
+
+#restart-button:hover {
+  transition: all 0.2s ease;
+  background-color: white;
+  color: black;
+}
+
+#credits {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 10px;
+  font-size: 20px;
+}
+
+#credits a:hover {
+  transition: all 0.2s ease;
+  transform: translateY(-10px);
+}
+
+#credits a {
+  color: white;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+}
+
+#credits img {
+  position: relative;
+  top: 5px;
+  left: 10px;
+}
+
+#credits img:hover {
+  transition: all 0.5s ease;
+  transform: rotate(360deg);
 }
