@@ -12,12 +12,14 @@ const Game = (() => {
     currentPlayer = startingPlayer.id;
     const board = document.querySelector("#game-board");
 
+    //Fill game board with divs for cells
     for (let i = 0; i < GameBoard.board.length; i++) {
       let cell = document.createElement("div");
       cell.textContent = GameBoard.board[i];
       cell.className = "board-cell";
       cell.dataset.position = i;
       cell.addEventListener("click", () => {
+        //If cell is empty, fill it and check if the player has won
         if (GameBoard.board[cell.dataset.position] == "" && !gameOver) {
           timesPlayed++;
           Game.fillCell(cell.dataset.position);
@@ -81,6 +83,7 @@ const Game = (() => {
   const endGame = (result, startingPlayer, otherPlayer) => {
     gameOver = true;
     document.querySelector("#game-board").classList.add("finished");
+    //Creates DOM elements for winning text, restart button and credits
     let winText = document.createElement("p");
     winText.id = "win-text";
     let restartButton = document.createElement("a");
@@ -100,6 +103,7 @@ const Game = (() => {
     switch (result) {
       case "X":
       case "O":
+        //Determine winning text
         if (result == startingPlayer.id)
           winText.textContent = startingPlayer.name + " wins!";
         else winText.textContent = otherPlayer.name + " wins!";
@@ -131,6 +135,7 @@ const Player = (playerId, playerName) => {
 const board = document.querySelector("#game-board");
 board.className = "disabled";
 
+//Behavior for choosing starting player
 const choiceButtons = document.querySelectorAll(".btn-choice");
 for (let i = 0; i < choiceButtons.length; i++) {
   choiceButtons[i].addEventListener("click", () => {
@@ -141,6 +146,7 @@ for (let i = 0; i < choiceButtons.length; i++) {
 
 const playButton = document.querySelector("#btn-play");
 playButton.addEventListener("click", () => {
+  //Get player names, determine starting player and delete the main menu
   board.className = "";
   let playerXName = document.querySelector("#player-x").value;
   if (playerXName == "") playerXName = "Player X";
